@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Fitness Coaching Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-black: #050507;
+            --card-bg: #0d0e12;
+            --card-border: #1f222e;
+            --neon-red: #ff2a2a;
+            --neon-gold: #ffd700;
+            --neon-green: #00ff88;
+            --neon-blue: #00d2ff;
+            --text-main: #ffffff;
+            --text-sub: #cbd5e1;
+            --glow-red: 0 0 20px rgba(255, 42, 42, 0.4);
+            --glow-gold: 0 0 20px rgba(255, 215, 0, 0.4);
+            --glow-green: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        [dir="ltr"] { text-align: left; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        
+        body { 
+            background: #030304;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(255, 42, 42, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(255, 215, 0, 0.12) 0%, transparent 40%);
+            color: var(--text-main); 
+            line-height: 1.7; 
+            padding-bottom: 60px; 
+            min-height: 100vh;
+        }
+
+        .top-bar {
+            background: rgba(10, 11, 15, 0.95);
+            border-bottom: 3px solid var(--neon-red);
+            box-shadow: 0 4px 25px rgba(255, 42, 42, 0.3);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .social-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #000;
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 2px solid var(--neon-gold);
+            box-shadow: var(--glow-gold);
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .social-btn.active:hover { transform: scale(1.2) rotate(5deg); }
+        .social-btn.disabled {
+            background: #222 !important;
+            color: #555 !important;
+            border: 1px solid #333 !important;
+            box-shadow: none !important;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .btn-whatsapp { background: #25D366; box-shadow: 0 0 12px #25D366; }
+        .btn-call { background: #007bff; box-shadow: 0 0 12px #007bff; }
+        .btn-tiktok { background: #000; border: 2px solid #fff; }
+        .btn-facebook { background: #1877F2; box-shadow: 0 0 12px #1877F2; }
+        .btn-instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .btn-youtube { background: #FF0000; box-shadow: 0 0 12px #FF0000; }
+
+        .container { max-width: 1100px; margin: 35px auto; padding: 0 20px; }
+
+        .card {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--neon-red), var(--neon-gold), var(--neon-green));
+        }
+        .card:hover { 
+            border-color: var(--neon-gold); 
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.15);
+        }
+
+        .card-header {
+            border-bottom: 2px solid var(--neon-red);
+            padding-bottom: 16px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .card-title { 
+            color: var(--neon-gold); 
+            font-size: 1.7rem; 
+            font-weight: 800;
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 22px;
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 10px; }
+
+        label { font-size: 1.05rem; color: var(--neon-gold); font-weight: 700; }
+
+        input, select, textarea {
+            background-color: #000;
+            border: 2px solid #2d3245;
+            color: #fff;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus { 
+            border-color: var(--neon-gold); 
+            box-shadow: var(--glow-gold); 
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        .btn:hover { transform: translateY(-3px) scale(1.02); filter: brightness(1.2); }
+
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--neon-red), #990000); 
+            color: #fff; 
+            box-shadow: var(--glow-red);
+        }
+        .btn-accent { 
+            background: linear-gradient(135deg, var(--neon-gold), #d97706); 
+            color: #000; 
+            box-shadow: var(--glow-gold);
+        }
+        .btn-danger { background: linear-gradient(135deg, #dc2626, #7f1d1d); color: #fff; }
+        .btn-success { 
+            background: linear-gradient(135deg, var(--neon-green), #059669); 
+            color: #000; 
+            box-shadow: var(--glow-green);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--card-border);
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background-color: #12141c;
+            color: var(--text-sub);
+            border: 2px solid var(--card-border);
+            padding: 14px 26px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 1.05rem;
+            transition: all 0.3s;
+        }
+        .tab-btn.active { 
+            background: var(--neon-red); 
+            color: #fff; 
+            border-color: var(--neon-red);
+            box-shadow: var(--glow-red);
+        }
+
+        .hidden { display: none !important; }
+
+        .macro-counters { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 20px; }
+        .macro-box { 
+            background: #000; 
+            padding: 18px; 
+            border-radius: 16px; 
+            text-align: center; 
+            border: 2px solid var(--neon-gold); 
+            box-shadow: var(--glow-gold);
+        }
+        .macro-val { font-size: 1.6rem; font-weight: 900; color: var(--neon-gold); margin-top: 5px; }
+
+        .subscriber-box {
+            background: #11131a;
+            border: 2px solid var(--card-border);
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .subscriber-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #000;
+            padding: 18px 24px;
+            border-radius: 14px;
+            flex-wrap: wrap;
+            gap: 15px;
+            border: 2px solid var(--neon-red);
+            box-shadow: var(--glow-red);
+        }
+
+        .subscriber-body {
+            margin-top: 22px;
+            padding-top: 22px;
+            border-top: 2px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .info-group { background: #000; padding: 22px; border-radius: 16px; border: 2px solid var(--card-border); }
+        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #1a1e2d; font-size: 1.05rem; }
+        .formatted-content { 
+            white-space: pre-wrap; 
+            word-break: break-word; 
+            line-height: 1.8; 
+            color: #fff; 
+            background: #000; 
+            padding: 18px; 
+            border-radius: 14px; 
+            border: 2px solid var(--neon-blue);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .formatted-content a { color: var(--neon-gold); text-decoration: underline; }
+
+        .day-card {
+            background: #000;
+            border: 2px solid var(--card-border);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--neon-gold);
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+        }
+        .exercise-item {
+            background: #0d0f17;
+            border: 2px solid #24293a;
+            padding: 18px;
+            border-radius: 14px;
+            margin-bottom: 14px;
+        }
+        .exercise-inputs {
+            display: flex;
+            gap: 15px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .exercise-inputs input {
+            flex: 1;
+            min-width: 130px;
+            padding: 12px 15px;
+            font-size: 1rem;
+        }
+        
+        .reminder-box {
+            background: rgba(255, 215, 0, 0.1);
+            border-right: 6px solid var(--neon-gold);
+            padding: 18px 25px;
+            border-radius: 14px;
+            margin-bottom: 30px;
+            border: 2px solid var(--neon-gold);
+            box-shadow: var(--glow-gold);
+        }
+        .streak-card {
+            background: linear-gradient(135deg, rgba(255, 42, 42, 0.2), rgba(255, 215, 0, 0.2));
+            border: 2px solid var(--neon-gold);
+            padding: 22px 28px;
+            border-radius: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            box-shadow: var(--glow-gold);
+        }
+        
+        .coach-badge {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 210, 255, 0.15));
+            border: 2px solid var(--neon-green);
+            padding: 16px 24px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 1.15rem;
+            box-shadow: var(--glow-green);
+        }
+
+        .collapsible-trigger {
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="social-container">
+            <span style="color:var(--neon-gold); font-weight:900; font-size:1rem;"><i class="fas fa-share-alt"></i> تواصل مع الكابتن:</span>
+            <div id="dynamicSocialLinks" style="display:flex; gap:12px;">
+                <!-- Social Icons Rendered Dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Auth Section -->
+        <div id="authSection" class="card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-dumbbell" style="color:var(--neon-red);"></i> منصة الكوتش المحترف الاحترافية</h2>
+            </div>
+            
+            <div class="nav-tabs">
+                <button class="tab-btn active" onclick="switchAuthMode('login')" id="tabLogin">تسجيل دخول متدرب</button>
+                <button class="tab-btn" onclick="switchAuthMode('register')" id="tabRegister">حساب متدرب جديد</button>
+                <button class="tab-btn" onclick="switchAuthMode('coachLogin')" id="tabCoachLogin">دخول الكابتن</button>
+                <button class="tab-btn" onclick="switchAuthMode('coachRegister')" id="tabCoachRegister">تسجيل كابتن جديد</button>
+            </div>
+
+            <!-- Member Login -->
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-grid">
+                    <div class="form-group"><label>رقم الموبايل</label><input type="tel" id="loginPhone" required placeholder="01012345678"></div>
+                    <div class="form-group"><label>كلمة السر</label><input type="password" id="loginPassword" required></div>
+                </div>
+                <button type="submit" id="loginSubmitBtn" class="btn btn-primary" style="margin-top: 25px; width: 100%;">دخول المتدرب 🔥</button>
+            </form>
+
+            <!-- Member Register -->
+            <form id="registerForm" class="hidden" onsubmit="handleRegister(event)">
+                <div class="form-grid">
+                    <div class="form-group"><label>الاسم الكامل</label><input type="text" id="regName" required></div>
+                    <div class="form-group"><label>رقم الموبايل</label><input type="tel" id="regPhone" required placeholder="01012345678"></div>
+                    <div class="form-group"><label>كلمة السر</label><input type="password" id="regPassword" required></div>
+                    <div class="form-group"><label>كود الكابتن (الخاص بكوتشك)</label><input type="text" id="regCoachCode" required placeholder="مثال: ROMANY123"></div>
+                    <div class="form-group">
+                        <label>النوع</label>
+                        <select id="regGender"><option value="male">ذكر</option><option value="female">أنثى</option></select>
+                    </div>
+                    <div class="form-group"><label>السن</label><input type="number" id="regAge" required></div>
+                    <div class="form-group"><label>الطول (سم)</label><input type="number" id="regHeight" required></div>
+                    <div class="form-group"><label>الوزن (كجم)</label><input type="number" id="regWeight" required></div>
+                    <div class="form-group">
+                        <label>الهدف</label>
+                        <select id="regGoal">
+                            <option value="نقص الوزن">نقص الوزن</option>
+                            <option value="زيادة الوزن">زيادة الوزن</option>
+                            <option value="زيادة الكتلة العضلية">زيادة الكتلة العضلية</option>
+                            <option value="لياقة بدنية">لياقة بدنية</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>مدة الاشتراك</label>
+                        <select id="regPlan"><option value="1">شهر واحد</option><option value="3">3 أشهر</option><option value="6">6 أشهر</option><option value="12">سنة كاملة</option></select>
+                    </div>
+                </div>
+                <button type="submit" id="regSubmitBtn" class="btn btn-accent" style="margin-top: 25px; width: 100%;">إتمام التسجيل وانضمام للكابتن 🚀</button>
+            </form>
+
+            <!-- Coach Login -->
+            <form id="coachLoginForm" class="hidden" onsubmit="handleCoachLogin(event)">
+                <div class="form-grid">
+                    <div class="form-group"><label>إيميل الكابتن أو الموبايل</label><input type="text" id="coachLoginUser" required placeholder="أدخل البريد أو الهاتف"></div>
+                    <div class="form-group"><label>كلمة السر</label><input type="password" id="coachLoginPass" required></div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 25px; width: 100%;">دخول لوحة تحكم الكابتن 👑</button>
+            </form>
+
+            <!-- Coach Register -->
+            <form id="coachRegisterForm" class="hidden" onsubmit="handleCoachRegister(event)">
+                <div class="form-grid">
+                    <div class="form-group"><label>اسم الكابتن الكامل</label><input type="text" id="cRegName" required placeholder="الكابتن روماني"></div>
+                    <div class="form-group"><label>إيميل الكابتن</label><input type="email" id="cRegEmail" required placeholder="coach@gmail.com"></div>
+                    <div class="form-group"><label>رقم الموبايل</label><input type="tel" id="cRegPhone" required placeholder="01012345678"></div>
+                    <div class="form-group"><label>كلمة السر</label><input type="password" id="cRegPass" required></div>
+                    <div class="form-group"><label>كود الكابتن الخاص بك (أحرف وأرقام إنجليزية مميزة)</label><input type="text" id="cRegCode" required placeholder="ROMANY123"></div>
+                    
+                    <div class="form-group"><label>رقم الواتساب للتواصل (اختياري)</label><input type="tel" id="cRegWa" placeholder="01044578792"></div>
+                    <div class="form-group"><label>رابط حساب التيك توك (اختياري)</label><input type="url" id="cRegTiktok" placeholder="https://www.tiktok.com/@..."></div>
+                    <div class="form-group"><label>رابط حساب الفيسبوك (اختياري)</label><input type="url" id="cRegFb" placeholder="https://www.facebook.com/..."></div>
+                    <div class="form-group"><label>رابط حساب الانستجرام (اختياري)</label><input type="url" id="cRegInsta" placeholder="https://instagram.com/..."></div>
+                    <div class="form-group"><label>رابط قناة اليوتيوب (اختياري)</label><input type="url" id="cRegYt" placeholder="https://youtube.com/@..."></div>
+                </div>
+                <button type="submit" class="btn btn-accent" style="margin-top: 25px; width: 100%;">إنشاء حساب كابتن وتوليد الكود ⚡</button>
+            </form>
+        </div>
+
+        <!-- Member Dashboard -->
+        <div id="memberDashboard" class="hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-user-circle"></i> أهلاً بك يا بطل <span id="memberNameDisplay" style="color:#fff;"></span></h2>
+                    <button class="btn btn-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
+                </div>
+
+                <div class="coach-badge">
+                    <i class="fas fa-user-shield" style="color:var(--neon-green); font-size:1.5rem;"></i>
+                    <span>الكابتن المتابع لك: <b id="assignedCoachNameDisplay" style="color:var(--neon-gold);">جاري التحميل...</b> (كود الكابتن: <b id="memberCoachCodeDisplay" style="color:var(--neon-blue);"></b>)</span>
+                </div>
+
+                <div class="streak-card">
+                    <div>
+                        <h4 style="color:var(--neon-gold); font-size:1.2rem;"><i class="fas fa-fire" style="color:#ff2a2a;"></i> سلسلة الالتزام المتواصل (Streak)</h4>
+                        <p style="font-size:0.95rem; color:var(--text-sub);">اضغط يومياً لتسجيل التزامك وتحديث العداد للكابتن أونلاين!</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <span id="streakNumDisplay" style="font-size:2.2rem; font-weight:900; color:var(--neon-gold);">0</span> <span style="font-size:1.1rem; font-weight:800;">يوم 🔥</span>
+                        <button class="btn btn-accent" style="display:block; padding:8px 16px; font-size:0.9rem; margin-top:8px;" onclick="incrementStreak()"><i class="fas fa-check"></i> التزمت اليوم!</button>
+                    </div>
+                </div>
+
+                <div class="reminder-box">
+                    <div>
+                        <i class="fas fa-bell" style="color:var(--neon-gold); font-size:1.2rem;"></i> <b style="color:var(--neon-gold); font-size:1.1rem;">توجيهات الكابتن اليومية:</b>
+                        <span id="dailyCoachDisplay" style="color:#fff; display:block; margin-top:6px; font-weight:700; font-size:1.05rem;">التزم بشرب المياه وتناول وجباتك في مواعيدها! 💧🔥</span>
+                    </div>
+                </div>
+
+                <div class="card" style="background:#000;">
+                    <h3 style="color:var(--neon-gold); margin-bottom:15px;"><i class="fas fa-calendar-check"></i> تفاصيل اشتراكك</h3>
+                    <div class="info-row"><span>تاريخ الاشتراك:</span> <b id="memberStartDate" style="color:#fff;"></b></div>
+                    <div class="info-row" style="border-bottom:none;"><span>تاريخ انتهاء الاشتراك:</span> <b id="memberEndDate" style="color:var(--neon-gold);"></b></div>
+                </div>
+
+                <div class="card" style="background:#000;">
+                    <h3 style="color:var(--neon-gold); margin-bottom:15px;"><i class="fas fa-utensils"></i> النظام الغذائي المخصص</h3>
+                    <div id="dietContent" class="formatted-content">جاري التحميل...</div>
+                </div>
+
+                <!-- Workout & Weight Logging -->
+                <div class="card" style="background:#000;">
+                    <h3 style="color:var(--neon-gold); margin-bottom:15px;"><i class="fas fa-dumbbell"></i> جدول التمارين وتسجيل الأوزان اليومي</h3>
+                    <p style="font-size:1rem; color:var(--text-sub); margin-bottom:18px;">سجل أوزانك والعدات لتصل للكابتن مباشرة أونلاين:</p>
+                    <div id="memberWorkoutDaysContainer"></div>
+                    <button class="btn btn-success" style="width:100%; margin-top:18px;" onclick="saveWorkoutLogsByMember()"><i class="fas fa-cloud-upload-alt"></i> حفظ الأوزان والأداء بالشيت ⚡</button>
+                </div>
+
+                <!-- Body Measurements Tracker -->
+                <div class="card" style="background:#000;">
+                    <h3 style="color:var(--neon-gold); margin-bottom:15px;"><i class="fas fa-ruler-horizontal"></i> سجل القياسات الأسبوعية (تصل للكابتن بالتاريخ والوقت)</h3>
+                    <div class="form-grid">
+                        <div class="form-group"><label>الوزن الحالي (كجم)</label><input type="number" id="statWeight" placeholder="مثال: 75.5"></div>
+                        <div class="form-group"><label>محيط الوسط (سم)</label><input type="number" id="statWaist" placeholder="مثال: 82"></div>
+                        <div class="form-group"><label>محيط الذراع (سم)</label><input type="number" id="statArm" placeholder="مثال: 36"></div>
+                    </div>
+                    <button class="btn btn-accent" style="margin-top:15px; width:100%;" onclick="addBodyStat()"><i class="fas fa-plus-circle"></i> تسـجيل قياس الأسبوع وإرساله للكابتن</button>
+                    <div id="bodyStatsHistory" style="margin-top:18px;"></div>
+                </div>
+
+                <!-- Weekly Report -->
+                <div class="card" style="background:#000;">
+                    <h3 style="color:var(--neon-gold); margin-bottom:15px;"><i class="fas fa-clipboard-check"></i> تقرير التقييم الأسبوعي للكابتن</h3>
+                    <div class="form-grid">
+                        <div class="form-group"><label>مستوى الطاقة (من 10):</label><input type="number" id="repEnergy" min="1" max="10" placeholder="10"></div>
+                        <div class="form-group"><label>الالتزام بالدايت (من 10):</label><input type="number" id="repDiet" min="1" max="10" placeholder="10"></div>
+                    </div>
+                    <div class="form-group" style="margin-top:12px;">
+                        <label>ملاحظات أو أسئلة للكابتن:</label>
+                        <textarea id="repNotes" rows="2" placeholder="اكتب للكابتن استفسارك..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top:15px; width:100%;" onclick="saveWeeklyReport()"><i class="fas fa-paper-plane"></i> إرسال التقرير الأسبوعي 🚀</button>
+                </div>
+
+                <div class="card" style="background:#000;">
+                    <h3 style="color:var(--neon-gold); margin-bottom:15px;"><i class="fas fa-sticky-note"></i> ملاحظات الكابتن الدائمة</h3>
+                    <div id="coachNotesContent" class="formatted-content">جاري التحميل...</div>
+                </div>
+
+                <!-- AI Accurate Nutrition Calculator -->
+                <div class="card" style="background:#000;">
+                    <h3 style="color:var(--neon-gold); margin-bottom:15px;"><i class="fas fa-calculator"></i> حاسبة الماكروز الذكية الدقيقة</h3>
+                    <div class="form-grid">
+                        <div class="form-group"><label>اكتب الطعام والكمية (مثال: 200g chicken or 150g rice)</label><input type="text" id="foodInput" placeholder="200g chicken or 150g rice"></div>
+                    </div>
+                    <button class="btn btn-accent" style="margin-top:15px;" onclick="calculateMacros()"><i class="fas fa-brain"></i> حساب القيم الغذائية</button>
+                    <div class="macro-counters">
+                        <div class="macro-box"><div>بروتين</div><div class="macro-val" id="valProtein">0g</div></div>
+                        <div class="macro-box"><div>كارب</div><div class="macro-val" id="valCarbs">0g</div></div>
+                        <div class="macro-box"><div>دهون</div><div class="macro-val" id="valFats">0g</div></div>
+                        <div class="macro-box"><div>سعرات</div><div class="macro-val" id="valCalories">0 kcal</div></div>
+                    </div>
+                </div>
+
+                <div class="card" style="background:#000;">
+                    <h3 style="color:var(--neon-gold); margin-bottom:15px;"><i class="fas fa-pen"></i> ملاحظاتي الخاصة للكابتن</h3>
+                    <div class="form-grid">
+                        <div class="form-group"><label>ملاحظة دائمة</label><textarea id="permNote" rows="2" placeholder="إصابات، حساسية..."></textarea></div>
+                        <div class="form-group"><label>ملاحظة اليوم</label><textarea id="dailyNote" rows="2" placeholder="كيف كان يومك..."></textarea></div>
+                    </div>
+                    <button class="btn btn-accent" style="margin-top:18px;" onclick="saveMemberNotes()"><i class="fas fa-cloud-upload-alt"></i> حفظ ملاحظاتي ⚡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coach Dashboard -->
+        <div id="adminDashboard" class="hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-user-shield"></i> لوحة تحكم الكابتن: <span id="coachNameDisplay" style="color:#fff;"></span> (كودك: <b id="coachCodeDisplay" style="color:var(--neon-gold);"></b>)</h2>
+                    <button class="btn btn-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>
+                </div>
+
+                <!-- Collapsible Social Links Settings -->
+                <div class="card" style="background:#000; margin-bottom:25px; border:2px solid var(--neon-gold);">
+                    <div class="collapsible-trigger" onclick="toggleSocialSettings()">
+                        <h3 style="color:var(--neon-gold);"><i class="fas fa-link"></i> تعديل روابط التواصل الاجتماعي الخاصة بك</h3>
+                        <i id="socialArrow" class="fas fa-chevron-down" style="color:var(--neon-gold); font-size:1.3rem;"></i>
+                    </div>
+                    <div id="socialSettingsBody" class="hidden" style="margin-top:22px; padding-top:18px; border-top:2px solid var(--card-border);">
+                        <div class="form-grid">
+                            <div class="form-group"><label>رقم الواتساب</label><input type="tel" id="cEditWa" placeholder="01044578792"></div>
+                            <div class="form-group"><label>رابط التيك توك</label><input type="url" id="cEditTiktok" placeholder="https://tiktok.com/@..."></div>
+                            <div class="form-group"><label>رابط الفيسبوك</label><input type="url" id="cEditFb" placeholder="https://facebook.com/..."></div>
+                            <div class="form-group"><label>رابط الانستجرام</label><input type="url" id="cEditInsta" placeholder="https://instagram.com/..."></div>
+                            <div class="form-group"><label>رابط اليوتيوب</label><input type="url" id="cEditYt" placeholder="https://youtube.com/@..."></div>
+                        </div>
+                        <button class="btn btn-accent" style="margin-top:18px; width:100%;" onclick="updateCoachSocials()"><i class="fas fa-save"></i> حفظ وتحديث روابط التواصل أونلاين</button>
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; flex-wrap:wrap; gap:15px;">
+                    <h3 style="color:var(--neon-gold);">متدربيك المسجلين بكودك فقط (تحديث مباشر للقياسات والأوزان والتقارير)</h3>
+                    <button class="btn btn-primary" onclick="loadCoachSubscribers()"><i class="fas fa-sync-alt"></i> تحديث البيانات أونلاين</button>
+                </div>
+                
+                <div id="adminSubscribersList"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwz_CtvWNHcMp0QTy2fSjNaX1VCqH10PwhiQlrbJ54zD78f8Q6p96XiPzcGnYB_QWuVyA/exec";
+
+        let currentUser = null;
+        let currentCoach = null;
+        let allSubscribers = [];
+        const DAYS = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
+
+        function apiRequest(params) {
+            return new Promise((resolve, reject) => {
+                const callbackName = 'jsonp_cb_' + Math.round(100000 * Math.random());
+                window[callbackName] = function(data) {
+                    delete window[callbackName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                    resolve(data);
+                };
+                const script = document.createElement('script');
+                let queryString = '?callback=' + callbackName;
+                for (let key in params) {
+                    queryString += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+                }
+                script.src = SCRIPT_URL + queryString;
+                script.onerror = function() {
+                    delete window[callbackName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                    reject(new Error("فشل الاتصال بـ Google Sheets"));
+                };
+                document.body.appendChild(script);
+            });
+        }
+
+        function cleanPhone(p) {
+            if(!p) return "";
+            let str = String(p).replace(/\D/g, '');
+            if(str.startsWith('20')) str = str.substring(2);
+            if(str.startsWith('0')) str = str.substring(1);
+            return str;
+        }
+
+        function renderTopBarSocials(socObj) {
+            const container = document.getElementById("dynamicSocialLinks");
+            container.innerHTML = "";
+
+            const socials = [
+                { id: 'wa', icon: 'fab fa-whatsapp', cls: 'btn-whatsapp', val: socObj ? (socObj.waPhone || socObj.wa) : '', isPhone: true },
+                { id: 'tiktok', icon: 'fab fa-tiktok', cls: 'btn-tiktok', val: socObj ? (socObj.tiktokLink || socObj.tiktok) : '' },
+                { id: 'fb', icon: 'fab fa-facebook-f', cls: 'btn-facebook', val: socObj ? (socObj.fbLink || socObj.fb) : '' },
+                { id: 'insta', icon: 'fab fa-instagram', cls: 'btn-instagram', val: socObj ? (socObj.instaLink || socObj.insta) : '' },
+                { id: 'yt', icon: 'fab fa-youtube', cls: 'btn-youtube', val: socObj ? (socObj.ytLink || socObj.yt) : '' }
+            ];
+
+            socials.forEach(s => {
+                if(s.val && s.val.trim() !== "") {
+                    let href = s.isPhone ? `https://wa.me/20${cleanPhone(s.val)}` : s.val;
+                    container.innerHTML += `<a href="${href}" target="_blank" class="social-btn active ${s.cls}" title="${s.id}"><i class="${s.icon}"></i></a>`;
+                } else {
+                    container.innerHTML += `<span class="social-btn disabled" title="غير مضاف"><i class="${s.icon}"></i></span>`;
+                }
+            });
+        }
+
+        function formatTextWithLinks(text) {
+            if(!text || text.trim() === "") return "لا يوجد حالياً.";
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            return text.replace(urlRegex, function(url) {
+                return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            renderTopBarSocials(null);
+
+            const savedPhone = localStorage.getItem('c_phone');
+            const savedRole = localStorage.getItem('c_role');
+
+            if (savedRole === 'coach' && savedPhone) {
+                fetchCoachDataAndLogin(savedPhone);
+            } else if (savedRole === 'member' && savedPhone) {
+                fetchUserDataAndLogin(savedPhone);
+            }
+        });
+
+        async function fetchCoachDataAndLogin(phoneOrEmail) {
+            try {
+                const res = await apiRequest({ action: "read" });
+                if(res.status === "success" && Array.isArray(res.data)) {
+                    allSubscribers = res.data;
+                    const coach = allSubscribers.find(u => u.role === 'coach' && (cleanPhone(u.phone) === cleanPhone(phoneOrEmail) || u.email === phoneOrEmail || String(u.coachCode).trim().toLowerCase() === String(phoneOrEmail).trim().toLowerCase()));
+                    if(coach) {
+                        currentCoach = coach;
+                        localStorage.setItem('c_phone', coach.phone);
+                        localStorage.setItem('c_role', 'coach');
+                        localStorage.setItem('c_coach_code', coach.coachCode);
+                        renderTopBarSocials(coach);
+                        showCoachDashboard();
+                    } else { logout(); }
+                }
+            } catch(e) {}
+        }
+
+        async function fetchUserDataAndLogin(phone) {
+            try {
+                const res = await apiRequest({ action: "read" });
+                if(res.status === "success" && Array.isArray(res.data)) {
+                    allSubscribers = res.data;
+                    const user = allSubscribers.find(u => u.role !== 'coach' && cleanPhone(u.phone) === cleanPhone(phone));
+                    if(user) {
+                        currentUser = user;
+                        
+                        const userCoach = allSubscribers.find(c => c.role === 'coach' && String(c.coachCode).trim().toLowerCase() === String(user.coachCode).trim().toLowerCase());
+                        if(userCoach) {
+                            renderTopBarSocials(userCoach);
+                            document.getElementById("assignedCoachNameDisplay").innerText = userCoach.name || "كابتنك المعتمد";
+                        } else {
+                            document.getElementById("assignedCoachNameDisplay").innerText = "الكابتن غير معروف";
+                        }
+
+                        showMemberDashboard();
+                    } else { logout(); }
+                }
+            } catch(e) {}
+        }
+
+        function switchAuthMode(mode) {
+            document.querySelectorAll(".nav-tabs .tab-btn").forEach(b => b.classList.remove("active"));
+            document.getElementById("loginForm").classList.add("hidden");
+            document.getElementById("registerForm").classList.add("hidden");
+            document.getElementById("coachLoginForm").classList.add("hidden");
+            document.getElementById("coachRegisterForm").classList.add("hidden");
+
+            if(mode === 'login') {
+                document.getElementById("tabLogin").classList.add("active");
+                document.getElementById("loginForm").classList.remove("hidden");
+            } else if(mode === 'register') {
+                document.getElementById("tabRegister").classList.add("active");
+                document.getElementById("registerForm").classList.remove("hidden");
+            } else if(mode === 'coachLogin') {
+                document.getElementById("tabCoachLogin").classList.add("active");
+                document.getElementById("coachLoginForm").classList.remove("hidden");
+            } else {
+                document.getElementById("tabCoachRegister").classList.add("active");
+                document.getElementById("coachRegisterForm").classList.remove("hidden");
+            }
+        }
+
+        function formatDate(date) {
+            const d = new Date(date);
+            return `${String(d.getDate()).padStart(2, '0')} / ${String(d.getMonth() + 1).padStart(2, '0')} / ${d.getFullYear()} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+        }
+
+        function toggleSocialSettings() {
+            const body = document.getElementById("socialSettingsBody");
+            const arrow = document.getElementById("socialArrow");
+            if(body) {
+                body.classList.toggle("hidden");
+                if(body.classList.contains("hidden")) {
+                    arrow.className = "fas fa-chevron-down";
+                } else {
+                    arrow.className = "fas fa-chevron-up";
+                }
+            }
+        }
+
+        async function handleCoachRegister(e) {
+            e.preventDefault();
+            const rawPhone = document.getElementById("cRegPhone").value.trim();
+            const coachCode = document.getElementById("cRegCode").value.trim();
+
+            const newCoach = {
+                id: "coach_" + Date.now(),
+                name: document.getElementById("cRegName").value.trim(),
+                phone: rawPhone,
+                password: document.getElementById("cRegPass").value.trim(),
+                role: "coach",
+                coachCode: coachCode,
+                email: document.getElementById("cRegEmail").value.trim(),
+                startDate: formatDate(new Date()),
+                waPhone: document.getElementById("cRegWa").value.trim(),
+                tiktokLink: document.getElementById("cRegTiktok").value.trim(),
+                fbLink: document.getElementById("cRegFb").value.trim(),
+                instaLink: document.getElementById("cRegInsta").value.trim(),
+                ytLink: document.getElementById("cRegYt").value.trim()
+            };
+
+            try {
+                await apiRequest({ action: "save", data: JSON.stringify(newCoach) });
+                alert("تم تسجيل حساب الكابتن وتأكيد كودك المميز بنجاح!");
+                localStorage.setItem('c_phone', rawPhone);
+                localStorage.setItem('c_role', 'coach');
+                localStorage.setItem('c_coach_code', coachCode);
+                currentCoach = newCoach;
+                renderTopBarSocials(newCoach);
+                showCoachDashboard();
+            } catch(err) {
+                alert("تعذر الحفظ في الشيت!");
+            }
+        }
+
+        async function handleCoachLogin(e) {
+            e.preventDefault();
+            const input = document.getElementById("coachLoginUser").value.trim();
+            const pass = document.getElementById("coachLoginPass").value.trim();
+
+            try {
+                const res = await apiRequest({ action: "read" });
+                if(res.status === "success" && Array.isArray(res.data)) {
+                    allSubscribers = res.data;
+                    const coach = allSubscribers.find(u => u.role === 'coach' && (cleanPhone(u.phone) === cleanPhone(input) || u.email === input || String(u.coachCode).trim().toLowerCase() === input.toLowerCase()) && String(u.password).trim() === pass);
+                    if(coach) {
+                        currentCoach = coach;
+                        localStorage.setItem('c_phone', coach.phone);
+                        localStorage.setItem('c_role', 'coach');
+                        localStorage.setItem('c_coach_code', coach.coachCode);
+                        renderTopBarSocials(coach);
+                        showCoachDashboard();
+                    } else { alert("بيانات الكابتن غير صحيحة!"); }
+                }
+            } catch(e) { alert("خطأ بالاتصال!"); }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const rawPhone = document.getElementById("regPhone").value.trim();
+            const coachCode = document.getElementById("regCoachCode").value.trim();
+            const monthsCount = parseInt(document.getElementById("regPlan").value);
+            
+            const startDateObj = new Date();
+            const endDateObj = new Date();
+            endDateObj.setMonth(startDateObj.getMonth() + monthsCount);
+
+            const newUser = {
+                id: "sub_" + Date.now(),
+                name: document.getElementById("regName").value.trim(),
+                phone: rawPhone,
+                password: document.getElementById("regPassword").value.trim(),
+                role: "member",
+                coachCode: coachCode,
+                gender: document.getElementById("regGender").value,
+                age: document.getElementById("regAge").value,
+                height: document.getElementById("regHeight").value,
+                weight: document.getElementById("regWeight").value,
+                goal: document.getElementById("regGoal").value,
+                planMonths: monthsCount,
+                startDate: formatDate(startDateObj),
+                endDate: formatDate(endDateObj),
+                diet: "",
+                workout: "",
+                coachNotes: "",
+                permNote: "",
+                dailyNote: "",
+                workoutLogs: "{}",
+                dailyCoach: "",
+                streakCount: "0",
+                bodyStats: "[]",
+                weeklyReport: "{}"
+            };
+
+            try {
+                await apiRequest({ action: "save", data: JSON.stringify(newUser) });
+                alert("تم التسجيل والانضمام للكابتن بنجاح!");
+                localStorage.setItem('c_phone', rawPhone);
+                localStorage.setItem('c_role', 'member');
+                currentUser = newUser;
+                fetchUserDataAndLogin(rawPhone);
+            } catch(err) { alert("تعذر الحفظ بالشيت!"); }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const phoneInput = document.getElementById("loginPhone").value.trim();
+            const passInput = document.getElementById("loginPassword").value.trim();
+
+            try {
+                const res = await apiRequest({ action: "read" });
+                if(res.status === "success" && Array.isArray(res.data)) {
+                    allSubscribers = res.data;
+                    const user = allSubscribers.find(u => u.role !== 'coach' && cleanPhone(u.phone) === cleanPhone(phoneInput) && String(u.password).trim() === passInput);
+                    if(user) {
+                        currentUser = user;
+                        localStorage.setItem('c_phone', user.phone);
+                        localStorage.setItem('c_role', 'member');
+
+                        const userCoach = allSubscribers.find(c => c.role === 'coach' && String(c.coachCode).trim().toLowerCase() === String(user.coachCode).trim().toLowerCase());
+                        if(userCoach) {
+                            renderTopBarSocials(userCoach);
+                            document.getElementById("assignedCoachNameDisplay").innerText = userCoach.name || "كابتنك المعتمد";
+                        }
+
+                        showMemberDashboard();
+                    } else { alert("رقم الموبايل أو كلمة السر غير صحيحة!"); }
+                }
+            } catch(err) { alert("خطأ بالاتصال!"); }
+        }
+
+        function showMemberDashboard() {
+            document.getElementById("authSection").classList.add("hidden");
+            document.getElementById("adminDashboard").classList.add("hidden");
+            document.getElementById("memberDashboard").classList.remove("hidden");
+
+            document.getElementById("memberNameDisplay").innerText = currentUser.name || "";
+            document.getElementById("memberCoachCodeDisplay").innerText = currentUser.coachCode || "";
+            document.getElementById("memberStartDate").innerText = currentUser.startDate || "";
+            document.getElementById("memberEndDate").innerText = currentUser.endDate || "";
+            document.getElementById("streakNumDisplay").innerText = currentUser.streakCount || "0";
+
+            document.getElementById("dietContent").innerHTML = formatTextWithLinks(currentUser.diet);
+            document.getElementById("coachNotesContent").innerHTML = formatTextWithLinks(currentUser.coachNotes);
+            document.getElementById("dailyCoachDisplay").innerText = currentUser.dailyCoach || "التزم بشرب المياه وتناول وجباتك في مواعيدها! 💧🔥";
+            
+            document.getElementById("permNote").value = currentUser.permNote || "";
+            document.getElementById("dailyNote").value = currentUser.dailyNote || "";
+
+            renderMemberWorkoutDays();
+            renderBodyStats();
+        }
+
+        async function incrementStreak() {
+            let current = parseInt(currentUser.streakCount || "0");
+            currentUser.streakCount = String(current + 1);
+            document.getElementById("streakNumDisplay").innerText = currentUser.streakCount;
+            await apiRequest({ action: "save", data: JSON.stringify(currentUser) });
+            alert("عاش يا بطل! تم تحديث العداد ووصوله للكابتن أونلاين 🔥");
+        }
+
+        function renderBodyStats() {
+            const container = document.getElementById("bodyStatsHistory");
+            let stats = [];
+            try { stats = JSON.parse(currentUser.bodyStats || "[]"); } catch(e){}
+
+            if(stats.length === 0) {
+                container.innerHTML = "<p style='font-size:0.95rem; color:var(--text-sub);'>لا توجد قياسات مسجلة بعد.</p>";
+                return;
+            }
+
+            let html = "<div style='display:flex; flex-direction:column; gap:10px;'>";
+            stats.forEach(st => {
+                html += `
+                    <div style="background:#0d0f17; padding:12px; border-radius:10px; border:2px solid var(--card-border); display:flex; justify-content:space-between; font-size:0.95rem; flex-wrap:wrap; gap:8px;">
+                        <span>📅 <b style="color:var(--neon-gold);">${st.date}</b></span>
+                        <span>⚖️ <b>${st.weight || '-'} كجم</b></span>
+                        <span>📏 وسط: <b>${st.waist || '-'} سم</b></span>
+                        <span>💪 ذراع: <b>${st.arm || '-'} سم</b></span>
+                    </div>
+                `;
+            });
+            html += "</div>";
+            container.innerHTML = html;
+        }
+
+        async function addBodyStat() {
+            const w = document.getElementById("statWeight").value;
+            const waist = document.getElementById("statWaist").value;
+            const arm = document.getElementById("statArm").value;
+
+            if(!w && !waist && !arm) { alert("أدخل قيمة واحدة على الأقل!"); return; }
+
+            let stats = [];
+            try { stats = JSON.parse(currentUser.bodyStats || "[]"); } catch(e){}
+
+            stats.unshift({ date: formatDate(new Date()), weight: w, waist: waist, arm: arm });
+            currentUser.bodyStats = JSON.stringify(stats);
+
+            await apiRequest({ action: "save", data: JSON.stringify(currentUser) });
+            alert("تم إرسال القياسات بالتاريخ والوقت للكابتن بنجاح!");
+            renderBodyStats();
+        }
+
+        async function saveWeeklyReport() {
+            const energy = document.getElementById("repEnergy").value;
+            const diet = document.getElementById("repDiet").value;
+            const notes = document.getElementById("repNotes").value;
+
+            const report = { date: formatDate(new Date()), energy: energy, diet: diet, notes: notes };
+            currentUser.weeklyReport = JSON.stringify(report);
+
+            await apiRequest({ action: "save", data: JSON.stringify(currentUser) });
+            alert("تم إرسال تقرير التقييم الأسبوعي للكابتن بنجاح! 🚀");
+        }
+
+        function renderMemberWorkoutDays() {
+            const container = document.getElementById("memberWorkoutDaysContainer");
+            container.innerHTML = "";
+
+            let logs = {};
+            try { logs = JSON.parse(currentUser.workoutLogs || "{}"); } catch(e){}
+
+            DAYS.forEach(day => {
+                const dayData = logs[day] || [];
+                const dayCard = document.createElement("div");
+                dayCard.className = "day-card";
+                
+                let exHtml = "";
+                dayData.forEach((ex, idx) => {
+                    exHtml += `
+                        <div class="exercise-item">
+                            <b style="color:var(--neon-gold); font-size:1.15rem;">${ex.name || 'تمرين'}</b> 
+                            ${ex.link ? `<a href="${ex.link}" target="_blank" style="color:#25D366; font-size:0.95rem; margin-right:12px; font-weight:800;"><i class="fas fa-video"></i> فيديو الشرح</a>` : ''}
+                            <div class="exercise-inputs">
+                                <input type="number" placeholder="الوزن المرفوع (كجم)" id="weight_${day}_${idx}" value="${ex.loggedWeight || ''}">
+                                <input type="number" placeholder="العدات الفعلية" id="reps_${day}_${idx}" value="${ex.loggedReps || ''}">
+                            </div>
+                        </div>
+                    `;
+                });
+
+                dayCard.innerHTML = `
+                    <div class="day-header"><h4 style="color:var(--neon-gold); font-size:1.2rem;"><i class="fas fa-calendar-day"></i> يوم ${day}</h4></div>
+                    ${exHtml || '<p style="font-size:0.95rem; color:var(--text-sub);">لم يقم الكابتن بإضافة تمارين لهذا اليوم بعد.</p>'}
+                `;
+                container.appendChild(dayCard);
+            });
+        }
+
+        async function saveWorkoutLogsByMember() {
+            let logs = {};
+            try { logs = JSON.parse(currentUser.workoutLogs || "{}"); } catch(e){}
+
+            DAYS.forEach(day => {
+                if(logs[day]) {
+                    logs[day].forEach((ex, idx) => {
+                        const w = document.getElementById(`weight_${day}_${idx}`);
+                        const r = document.getElementById(`reps_${day}_${idx}`);
+                        if(w) ex.loggedWeight = w.value;
+                        if(r) ex.loggedReps = r.value;
+                    });
+                }
+            });
+
+            currentUser.workoutLogs = JSON.stringify(logs);
+
+            try {
+                await apiRequest({ action: "save", data: JSON.stringify(currentUser) });
+                alert("تم حفظ أوزانك ووصولها للكابتن بنجاح أونلاين!");
+            } catch(e) { alert("فشل الحفظ!"); }
+        }
+
+        async function saveMemberNotes() {
+            if(!currentUser) return;
+            currentUser.permNote = document.getElementById("permNote").value;
+            currentUser.dailyNote = document.getElementById("dailyNote").value;
+
+            try {
+                await apiRequest({ action: "save", data: JSON.stringify(currentUser) });
+                alert("تم حفظ ملاحظاتك للكابتن بنجاح!");
+            } catch(e) { alert("فشل الحفظ!"); }
+        }
+
+        function showCoachDashboard() {
+            document.getElementById("authSection").classList.add("hidden");
+            document.getElementById("memberDashboard").classList.add("hidden");
+            document.getElementById("adminDashboard").classList.remove("hidden");
+
+            document.getElementById("coachNameDisplay").innerText = currentCoach.name || "";
+            document.getElementById("coachCodeDisplay").innerText = currentCoach.coachCode || "";
+
+            document.getElementById("cEditWa").value = currentCoach.waPhone || "";
+            document.getElementById("cEditTiktok").value = currentCoach.tiktokLink || "";
+            document.getElementById("cEditFb").value = currentCoach.fbLink || "";
+            document.getElementById("cEditInsta").value = currentCoach.instaLink || "";
+            document.getElementById("cEditYt").value = currentCoach.ytLink || "";
+
+            loadCoachSubscribers();
+        }
+
+        async function updateCoachSocials() {
+            if(!currentCoach) return;
+            currentCoach.waPhone = document.getElementById("cEditWa").value.trim();
+            currentCoach.tiktokLink = document.getElementById("cEditTiktok").value.trim();
+            currentCoach.fbLink = document.getElementById("cEditFb").value.trim();
+            currentCoach.instaLink = document.getElementById("cEditInsta").value.trim();
+            currentCoach.ytLink = document.getElementById("cEditYt").value.trim();
+
+            try {
+                await apiRequest({ action: "save", data: JSON.stringify(currentCoach) });
+                alert("تم تحديث روابط التواصل الاجتماعي بنجاح وسوف تظهر لجميع متدربيك!");
+                renderTopBarSocials(currentCoach);
+            } catch(e) { alert("تعذر حفظ التعديلات!"); }
+        }
+
+        async function loadCoachSubscribers() {
+            const container = document.getElementById("adminSubscribersList");
+            container.innerHTML = "<p style='color:var(--neon-gold); text-align:center; font-size:1.2rem; font-weight:800;'>جاري جلب متدربينك أونلاين...</p>";
+
+            try {
+                const res = await apiRequest({ action: "read" });
+                if(res.status === "success" && Array.isArray(res.data)) {
+                    allSubscribers = res.data;
+                }
+            } catch(e) {}
+
+            container.innerHTML = "";
+
+            const myTrainees = allSubscribers.filter(u => u.role !== 'coach' && String(u.coachCode).trim().toLowerCase() === String(currentCoach.coachCode).trim().toLowerCase());
+
+            if(myTrainees.length === 0) {
+                container.innerHTML = "<p style='text-align:center; color:var(--text-sub); font-size:1.1rem;'>لا يوجد متدربين مسجلين بكودك حتى الآن. شارك كودك مع المتدربين لتبدأ متابعتهم!</p>";
+                return;
+            }
+
+            myTrainees.forEach((u, idx) => {
+                const uId = u.id || ('idx_' + idx);
+                const phoneClean = cleanPhone(u.phone);
+                const box = document.createElement("div");
+                box.className = "subscriber-box";
+
+                let logs = {};
+                try { logs = JSON.parse(u.workoutLogs || "{}"); } catch(e){}
+
+                let repObj = {};
+                try { repObj = JSON.parse(u.weeklyReport || "{}"); } catch(e){}
+
+                let statsArr = [];
+                try { statsArr = JSON.parse(u.bodyStats || "[]"); } catch(e){}
+
+                let statsHtml = "";
+                statsArr.forEach(st => {
+                    statsHtml += `<div style="font-size:0.95rem; color:#fff; border-bottom:1px solid #1f222e; padding:6px 0;">📅 <b>${st.date}</b> | ⚖️ <b style="color:var(--neon-gold);">${st.weight || '-'} كجم</b> | وسط: <b>${st.waist || '-'} سم</b> | ذراع: <b>${st.arm || '-'} سم</b></div>`;
+                });
+
+                let daysAdminHtml = "";
+                DAYS.forEach(day => {
+                    const exList = logs[day] || [];
+                    let exRows = "";
+                    exList.forEach((ex, exIdx) => {
+                        exRows += `
+                            <div style="background:#000; padding:12px; border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border:2px solid var(--card-border);">
+                                <span><b style="color:#fff; font-size:1.05rem;">${ex.name}</b> ${ex.link ? `<a href="${ex.link}" target="_blank" style="color:var(--neon-gold); font-size:0.9rem; margin-right:6px;">(فيديو)</a>` : ''}</span>
+                                <span style="font-size:0.95rem; color:var(--neon-green); font-weight:800;">أداء المتدرب: <b>${ex.loggedWeight || 0} كجم</b> | <b>${ex.loggedReps || 0} عَـدَّة</b></span>
+                                <button class="btn btn-danger" style="padding:4px 10px; font-size:0.85rem;" onclick="removeExerciseByCoach('${uId}', '${day}', ${exIdx})">حذف</button>
+                            </div>
+                        `;
+                    });
+
+                    daysAdminHtml += `
+                        <div style="background:#0d0e12; border:2px solid var(--card-border); padding:14px; border-radius:12px; margin-bottom:14px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                <b style="color:var(--neon-gold); font-size:1.1rem;">${day}</b>
+                                <button class="btn btn-accent" style="padding:6px 14px; font-size:0.9rem;" onclick="addExerciseByCoach('${uId}', '${day}')"><i class="fas fa-plus"></i> إضافة تمرين</button>
+                            </div>
+                            ${exRows || '<span style="font-size:0.9rem; color:var(--text-sub);">لا توجد تمارين مضافة.</span>'}
+                        </div>
+                    `;
+                });
+
+                box.innerHTML = `
+                    <div class="subscriber-header">
+                        <div style="cursor:pointer; flex:1;" onclick="toggleSubscriberBox('${uId}')">
+                            <b style="color:var(--neon-gold); font-size:1.3rem;"><i class="fas fa-user-circle"></i> ${u.name}</b>
+                            <div style="font-size:0.95rem; color:var(--text-sub); margin-top:4px;">ينتهي في: <b style="color:#fff;">${u.endDate}</b> | 🔥 الالتزام: <b style="color:var(--neon-gold);">${u.streakCount || 0} يوم</b></div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <a href="https://wa.me/20${phoneClean}" target="_blank" class="social-btn btn-whatsapp active" title="تواصل واتساب"><i class="fab fa-whatsapp"></i></a>
+                            <a href="tel:${u.phone}" class="social-btn btn-call active" title="اتصال هاتفي"><i class="fas fa-phone-alt"></i></a>
+                            <button class="btn btn-danger" style="padding:10px 16px; font-size:0.9rem;" onclick="deleteSubscriber('${u.id}', '${u.phone}')">حذف</button>
+                        </div>
+                    </div>
+                    <div id="subBody_${uId}" class="subscriber-body hidden">
+                        <div class="info-group">
+                            <h4 style="color:var(--neon-gold); margin-bottom:14px; font-size:1.2rem;">بيانات المتدرب الشخصية</h4>
+                            <div class="info-row"><span>رقم الموبايل:</span> <b>${u.phone}</b></div>
+                            <div class="info-row"><span>كلمة السر:</span> <b>${u.password}</b></div>
+                            <div class="info-row"><span>السن والطول/الوزن:</span> <b>${u.age} سنة | ${u.height} سم / ${u.weight} كجم</b></div>
+                            <div class="info-row" style="border-bottom:none;"><span>الهدف:</span> <b>${u.goal}</b></div>
+                        </div>
+
+                        <div class="info-group">
+                            <h4 style="color:var(--neon-gold); margin-bottom:14px; font-size:1.2rem;">📈 سجل القياسات الأسبوعية المسجلة أونلاين</h4>
+                            <div style="background:#000; padding:12px; border-radius:12px; border:2px solid var(--card-border); max-height:180px; overflow-y:auto;">
+                                ${statsHtml || '<span style="color:#aaa; font-size:0.95rem;">لم يسجل المتدرب أي قياسات بعد.</span>'}
+                            </div>
+                        </div>
+
+                        <div class="info-group">
+                            <h4 style="color:var(--neon-gold); margin-bottom:14px; font-size:1.2rem;">📊 تقرير التقييم الأسبوعي</h4>
+                            <div style="background:#000; padding:14px; border-radius:12px; font-size:0.95rem; border:2px solid var(--card-border);">
+                                📅 <b>التاريخ:</b> ${repObj.date || 'لا يوجد'}<br>
+                                ⚡ <b>طاقة التمرين:</b> ${repObj.energy || '-'}/10 | 🥗 <b>التزام الدايت:</b> ${repObj.diet || '-'}/10<br>
+                                💬 <b>ملاحظات المتدرب:</b> ${repObj.notes || 'لا يوجد'}
+                            </div>
+                        </div>
+
+                        <div class="info-group">
+                            <h4 style="color:var(--neon-gold); margin-bottom:14px; font-size:1.2rem;">إدارة جدول تمارين الأسبوع (+)</h4>
+                            ${daysAdminHtml}
+                        </div>
+                        
+                        <div class="info-group">
+                            <h4 style="color:var(--neon-gold); margin-bottom:14px; font-size:1.2rem;">النظام الغذائي المخصص للمتدرب</h4>
+                            <div class="form-group"><textarea id="diet_${uId}" rows="4">${u.diet || ''}</textarea></div>
+                        </div>
+
+                        <div class="info-group">
+                            <h4 style="color:var(--neon-gold); margin-bottom:14px; font-size:1.2rem;">الملاحظات والتوجيهات</h4>
+                            <div class="form-group" style="margin-bottom:14px;">
+                                <label>إشعار وتوجيه اليوم (يظهر للمتدرب بأعلى المنصة):</label>
+                                <textarea id="dailyCoach_${uId}" rows="2">${u.dailyCoach || ''}</textarea>
+                            </div>
+                            <div style="background:#000; padding:14px; border-radius:12px; margin-bottom:14px; font-size:1rem; border:2px solid var(--card-border);">
+                                📌 <b>ملاحظة المتدرب الدائمة:</b> <span style="color:var(--neon-gold);">${u.permNote || 'لا يوجد'}</span><br>
+                                📝 <b>ملاحظة المتدرب اليومية:</b> <span style="color:var(--neon-gold);">${u.dailyNote || 'لا يوجد'}</span>
+                            </div>
+                            <button class="btn btn-accent" style="width:100%;" onclick="saveUserDataByCoach('${u.id}', '${u.phone}')"><i class="fas fa-save"></i> حفظ كافة التعديلات للمتدرب أونلاين</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function toggleSubscriberBox(uId) {
+            const body = document.getElementById(`subBody_${uId}`);
+            if(body) body.classList.toggle("hidden");
+        }
+
+        function addExerciseByCoach(uId, day) {
+            const exName = prompt(`أدخل اسم التمرين الجديد ليوم ${day}:`);
+            if(!exName) return;
+            const exLink = prompt("أدخل رابط فيديو الشرح (يوتيوب):") || "";
+
+            let user = allSubscribers.find(u => (u.id || '') === uId || uId.startsWith('idx_'));
+            if(user) {
+                let logs = {};
+                try { logs = JSON.parse(user.workoutLogs || "{}"); } catch(e){}
+                if(!logs[day]) logs[day] = [];
+                logs[day].push({ name: exName, link: exLink, loggedWeight: "", loggedReps: "" });
+                user.workoutLogs = JSON.stringify(logs);
+                saveUserDataByCoach(user.id, user.phone);
+            }
+        }
+
+        function removeExerciseByCoach(uId, day, exIdx) {
+            let user = allSubscribers.find(u => (u.id || '') === uId || uId.startsWith('idx_'));
+            if(user && confirm("هل أنت متأكد من حذف هذا التمرين؟")) {
+                let logs = {};
+                try { logs = JSON.parse(user.workoutLogs || "{}"); } catch(e){}
+                if(logs[day]) {
+                    logs[day].splice(exIdx, 1);
+                    user.workoutLogs = JSON.stringify(logs);
+                    saveUserDataByCoach(user.id, user.phone);
+                }
+            }
+        }
+
+        async function saveUserDataByCoach(id, phone) {
+            let user = allSubscribers.find(u => String(u.id) === String(id) || cleanPhone(u.phone) === cleanPhone(phone));
+            if(user) {
+                const uId = user.id || id;
+                if(document.getElementById(`diet_${uId}`)) user.diet = document.getElementById(`diet_${uId}`).value;
+                if(document.getElementById(`dailyCoach_${uId}`)) user.dailyCoach = document.getElementById(`dailyCoach_${uId}`).value;
+
+                try {
+                    await apiRequest({ action: "save", data: JSON.stringify(user) });
+                    alert("تم حفظ وتحديث بيانات المتدرب بنجاح أونلاين!");
+                    loadCoachSubscribers();
+                } catch(e) { alert("تعذر الحفظ!"); }
+            }
+        }
+
+        async function deleteSubscriber(id, phone) {
+            if(confirm("هل أنت متأكد من حذف هذا المتدرب نهائياً؟")) {
+                try {
+                    await apiRequest({ action: "delete", id: id, phone: phone });
+                    alert("تم الحذف بنجاح!");
+                    loadCoachSubscribers();
+                } catch(e) { alert("فشل الحذف!"); }
+            }
+        }
+
+        function calculateMacros() {
+            const input = document.getElementById("foodInput").value.trim().toLowerCase();
+            if(!input) { alert("أدخل الوجبة والكمية أولاً!"); return; }
+
+            const db = [
+                { k: ["دجاج", "فراخ", "chicken"], p: 31, c: 0, f: 3.6, cal: 165 },
+                { k: ["أرز", "رز", "rice"], p: 2.7, c: 28, f: 0.3, cal: 130 },
+                { k: ["بيض", "egg"], p: 13, c: 1.1, f: 11, cal: 155 },
+                { k: ["لحم", "لحمه", "meat", "beef"], p: 26, c: 0, f: 15, cal: 250 },
+                { k: ["تونة", "تونه", "tuna"], p: 28, c: 0, f: 1, cal: 128 },
+                { k: ["بطاطس", "potato"], p: 2, c: 17, f: 0.1, cal: 77 },
+                { k: ["موز", "banana"], p: 1.1, c: 23, f: 0.3, cal: 89 },
+                { k: ["شوفان", "oats"], p: 16.9, c: 66.3, f: 6.9, cal: 389 },
+                { k: ["جبن قريش", "cottage"], p: 11, c: 3.4, f: 4.3, cal: 98 },
+                { k: ["سمك", "fish"], p: 22, c: 0, f: 2.3, cal: 105 }
+            ];
+
+            const matches = input.match(/\d+/g);
+            const amount = matches ? parseInt(matches[0]) : 100;
+            const factor = amount / 100;
+
+            let tp = 0, tc = 0, tf = 0, tcal = 0, found = false;
+            db.forEach(item => {
+                if(item.k.some(x => input.includes(x))) {
+                    tp += item.p * factor;
+                    tc += item.c * factor;
+                    tf += item.f * factor;
+                    tcal += item.cal * factor;
+                    found = true;
+                }
+            });
+
+            if(!found) { tp = 18 * factor; tc = 25 * factor; tf = 6 * factor; tcal = 210 * factor; }
+
+            document.getElementById("valProtein").innerText = tp.toFixed(1) + "g";
+            document.getElementById("valCarbs").innerText = tc.toFixed(1) + "g";
+            document.getElementById("valFats").innerText = tf.toFixed(1) + "g";
+            document.getElementById("valCalories").innerText = tcal.toFixed(0) + " kcal";
+        }
+
+        function logout() {
+            currentUser = null;
+            currentCoach = null;
+            localStorage.clear();
+            renderTopBarSocials(null);
+            document.getElementById("memberDashboard").classList.add("hidden");
+            document.getElementById("adminDashboard").classList.add("hidden");
+            document.getElementById("authSection").classList.remove("hidden");
+        }
+    </script>
+</body>
+</html>
